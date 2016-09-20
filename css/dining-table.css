@@ -1,0 +1,129 @@
+/*导航*/
+nav{ position:fixed; left:0; top:0; z-index:6666; height:35px; width:100%; background:#262a33;}
+nav li{ float:left;}
+nav,nav li,h1{ height:35px; line-height:35px;}
+h1{ color:#fff; height:35px; font-size:22px;}
+nav .nav-menu-left,nav .nav-menu-center,nav .nav-menu-right{ padding:0; margin:0;}
+nav .nav-menu-left{ text-align:left;}
+nav .nav-menu-right li{ float:right; }
+nav .nav-menu-left a{ margin-left:10px;}
+nav .nav-menu-right a{ margin-right:10px;}
+nav .nav-menu-center{ text-align:center;}
+@media (min-width:768px) {
+    nav,nav li,h1{ height:40px; line-height:40px;}
+    h1{ font-size:26px;}
+}
+@media (min-width:992px) {
+    nav,nav li,h1{ height:45px; line-height:45px;}
+    h1{ font-size:28px;}
+}
+@media (min-width:1200px) {
+    nav,nav li,h1{ height:50px; line-height:50px;}
+    h1{ font-size:30px;}
+}
+
+
+/*设置模态*/
+#modality{ position:fixed; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,.9); }
+#adminBox{ position: absolute; width:50%; background:#eee;}
+#adminBox h2{ text-align:center; line-height:30px; font-size:24px;}
+#adminBox .adminList{ float:left;}
+#adminBox .adminInfo{ float:right; width:70%;}
+#adminBox .adminInfo li{ overflow: hidden;}
+#adminBox .adminInfo li span:nth-child(1){ float:left;}
+#adminBox .adminInfo li span:nth-child(2){ float:right;}
+@media (min-width:768px) { }
+@media (min-width:992px) { }
+@media (min-width:1200px) { }
+
+
+/*主体*/
+.main{ position:absolute; top:35px; bottom:35px; left:0; right:0;}
+.main .mainBody{ position:relative; height:100%; width:100%; background:url("../img/floor/floor_bg1.png") repeat;}
+@media (min-width:768px) {
+    .main{ top:40px; bottom:40px;}
+}
+@media (min-width:992px) {
+    .main{ top:45px; bottom:45px;}
+}
+@media (min-width:1200px) {
+    .main{ top:50px; bottom:50px;}
+}
+
+
+/*桌台*/
+#dining-table{ position:relative;}
+#dining-table-list{ position:relative;}
+#dining-table-size-item{ width:90%; }
+#dining-table-list .dining-table-size { height:100px;}
+#dining-table-list .dining-table-item{ position:absolute; box-shadow: 0 0 7px 5px rgba(0,0,0,0.1); background:#fff; cursor:pointer; border-radius:10px;}
+#dining-table-list .dining-table-item p{ font-size:1em; text-align:center; line-height:1.3em}   /*此处能使用em是因为他的父级字体通过js动态设置大小*/
+#dining-table-list .dining-table-item .tableNumIng{ font-size:1.5em; padding-top:0; font-weight: bold;}
+#dining-table-list .dining-table-item .tableNumVoid{  padding-top:1.2em; font-size:1.3em; font-weight: bold;}
+#dining-table-list .dining-table-item .tableForNumVoid{ margin-top:0.1em;}
+#dining-table-list .dining-table-round{ border-radius:50%;}
+@media (min-width:768px) {
+    #dining-table-list .dining-table-item p{ line-height:1.5em;}
+    #dining-table-list .dining-table-item .tableNumIng{ font-size:1.5em; padding-top:0.2em;}
+    #dining-table-list .dining-table-item .tableForNumIng{ margin-top:-0.3em;}
+    #dining-table-list .dining-table-item .tableNumVoid{ padding-top:1.7em; font-size:1.4em;}
+    #dining-table-list .dining-table-item .tableForNumVoid{ margin-top:0.1em;}
+}
+@media (min-width:992px) {
+    #dining-table-list .dining-table-item p{ line-height:1.8em;}
+    #dining-table-list .dining-table-item .tableNumIng{ font-size:1.5em; padding-top:0.3em;}
+    #dining-table-list .dining-table-item .tableForNumIng{ margin-top:-0.3em;}
+    #dining-table-list .dining-table-item .tableNumVoid{ padding-top:1.7em; font-size:1.4em;}
+    #dining-table-list .dining-table-item .tableForNumVoid{ margin-top:-0.3em;}
+}
+@media (min-width:1200px) {
+    #dining-table-list .dining-table-item p{ line-height:2em;}
+    #dining-table-list .dining-table-item .tableNumIng{ font-size:1.5em;}
+    #dining-table-list .dining-table-item .tableForNumIng{ margin-top:-0.3em;}
+    #dining-table-list .dining-table-item .tableNumVoid{ padding-top:1.7em; font-size:1.5em;}
+    #dining-table-list .dining-table-item .tableForNumVoid{ margin-top:-0.3em;}
+}
+
+/*墙*/
+#dining-table-list .create-wall{ background:#f0f1f3;}
+#dining-table-list .create-wall {}
+
+/*右键样式*/
+#rightMenuBox{ position:absolute; padding:5px 0; background:#eee;}
+#rightMenuBox .right_menuList{ position:relative;}
+#rightMenuBox .right_menuList ul{ position:absolute; top:0; right:-100px; display:none; padding:0 10px;}
+#rightMenuBox .right_menuList li{ background:#eee;}
+#rightMenuBox h5{ position:relative; padding:0 30px 0 15px; line-height:28px;}
+#rightMenuBox .right_menuList ul h5{ padding:0 30px;}
+#rightMenuBox .right_menuList h5 span{ position:absolute; top:6px; right:6px; display:inline-block; width:14px; height:14px; background:url("../img/rightArrow.png") no-repeat; background-size:56%;}
+#rightMenuBox .NoMoreIcon h5 span{ display: none;}
+@media (min-width:768px) { }
+@media (min-width:992px) { }
+@media (min-width:1200px) { }
+
+
+
+    /*尾部*/
+footer{ position:fixed; bottom:0; left:0; height:35px; width:100%; line-height:35px; background:#262a33;}
+footer .footerTxtLeft a{ margin-left:10px;}
+footer .footerTxtRight a{ margin-right:10px;}
+footer .footerTxtRight{ text-align:right;}
+footer .aBtnRBottom{ padding:5px 24px;}
+footer #viewToggle{ display:inline-block;}
+footer .footerTxtLeft,footer .footerTxtRight{ padding:0;}
+@media (min-width:768px) {
+    footer{ height:40px; line-height:40px;}
+    footer .aBtnRBottom{ padding:5px 26px;}
+}
+@media (min-width:992px) {
+    footer{ height:45px; line-height:45px;}
+    footer .aBtnRBottom{ padding:5px 28px;}
+}
+@media (min-width:1200px) {
+    footer{ height:50px; line-height:50px;}
+    footer .aBtnRBottom{ padding:5px 30px;}
+}
+
+
+
+

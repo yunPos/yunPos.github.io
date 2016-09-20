@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div style=" position:absolute; top:100px; left:300px; width:10px; height:300px; background:red;">
+        <span style="position:absolute; top:10px; width:100%; height:10px; background:pink; text-align: center;"></span>
+    </div>
+</body>
+</html>
+<script>
+    var oDiv = document.getElementsByTagName('div')[0];
+    var swithSize = false;  //判断是否能拖放大小
+    var swithRotate = false;  //判断是否能旋转
+    var angle ;    //定义角度
+
+    oDiv.onmousedown = function(ev){
+        var ev = ev || event;
+        var posL = oDiv.offsetLeft;
+        var posT = oDiv.offsetTop;
+        var w = oDiv.offsetWidth;
+        var h = oDiv.offsetHeight;
+        var _this = this;
+        var clientX = ev.clientX;
+        var clientY = ev.clientY;
+
+        //计算圆半径
+        var circleCenX = posL + w / 2;
+        var circleCenY = posT + h / 2;
+
+        //判断鼠标是否在需要改变大小的下边，拖动即可同时改变长宽
+        if(posT + h -clientY <10 && posT + h -clientY >0){
+            swithSize = true;
+            swithRotate = false;
+        }
+        //判断鼠标是否在需要改变大小的上边，拖动即可旋转
+        if(clientY - posT >0 && clientY - posT <10){
+            swithSize = false;
+            swithRotate = true ;
+        }
+
+
+        document.onmousemove = function(ev){
+
+//            oSpan.innerHTML = '';
+            var ev = ev || event;
+            //计算两点的线在页面中的角度
+            var disX = ev.clientX - circleCenX;
+            var disY = ev.clientY - circleCenY;
+
+            if(swithSize){
+                //计算缩放后的width、height、top、left值
+                var wChange = w + ev.clientX - clientX;
+                var hChange = h + ev.clientY - clientY;
+
+                //设置最小快高，和最大宽
+                if(_this.offsetWidth < 6){
+                    wChange = 6;
+                }
+//                if(_this.offsetWidth >30){  //持续拖动当宽度超出指定部分放开鼠标后回弹值设置的宽度，出现视觉bug【暂不能修复，暂时不做此限制】
+//                    wChange = 30;
+//                    _this.style.cssText += ';width:'+wChange+'px;'
+//                }
+                if(_this.offsetHeight < 20){
+                    hChange = 20;
+                }
+                _this.style.cssText += ';width:'+wChange+'px; height:'+hChange+'px; top:'+posT+'; left:'+posL+';';
+                oDiv.style.cursor = 'pointer';
+            }
+            if(swithRotate){
+                //设置角度
+                angle = 360 * Math.atan2(disY,disX) / (2 * Math.PI);
+                angle = angle <= -90?(360+angle)+90 : angle+90;
+                _this.style.transform = 'rotateZ('+angle+'deg)';
+            }
+        }
+        document.onmouseup = function(){
+            //当鼠标松开鼠标时，坐标值（两点的线在页面中的角度）接近垂直或水平时自动垂直或水平
+            if(angle % 90 < 15){
+                angle = angle - angle % 90;
+                _this.style.transform = 'rotateZ('+angle+'deg)';
+            }
+            document.onmousemove = document.onmouseup = null;
+            swithSize = false;
+            swithRotate = false;
+        }
+
+
+
+    }
+</script>
