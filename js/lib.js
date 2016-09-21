@@ -25,7 +25,15 @@
 //         obj.className = classArr.join('');
 //     }
 // }
-
+/*-----------------------------------判断是否有某个类Class-----------------------------------------*/
+function isClassName(obj,className){
+    if(obj.className != ''){
+        var classNameS = obj.className.split(' ');
+        for(var i=0; i<classNameS.length; i++){
+            if(classNameS[i] == className) return true;
+        }
+    }
+}
 
 
 

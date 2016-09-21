@@ -55,8 +55,10 @@ window.onload = function(){
     function rightMenuClick(aLi,_this){
         for(var i=0; i<aLi.length; i++) {
             aLi[i].onclick = function(ev){
+                var ev = ev || event;
+                var clientX = ev.clientX;
+                var clientY = ev.clientY;
                 if(this.getAttribute("data-type") == 'false'){
-                    var ev = ev || event;
                     for(var i=0; i<aLi.length; i++){
                         aLi[i].style.background = 'none';
                         aLi[i].children[1].style.display = 'none';
@@ -73,7 +75,7 @@ window.onload = function(){
                             break;
                         case 3: console.log(n);
                             break;
-                        case 4: createWall(n);
+                        case 4: createWall(clientX,clientY,n);
                             break;
                         case 5: console.log(n);
                             break;
@@ -109,34 +111,65 @@ window.onload = function(){
                 break;
             default:console.log('正在努力添加中……')
         }
-        createDiningTable.innerHTML = voidDiningTableHTML();
-        var diningTableChild = diningTableList.children;
+        createDiningTable.innerHTML = voidDiningTableHTML();  //create-wall
         diningTableList.appendChild(createDiningTable);
+        var diningTableArr = []; //获取桌台元素集合
+        var diningTableListChild = diningTableList.children;  //获取地板上的所有元素，桌台、墙、收银台
+        var diningTableListChildNum = 0; //暂存桌台的个数
+
         //新建桌台时的默认位置
-        if(diningTableChild.length == 1){
-            diningTableChild[0].style.cssText = 'top:'+diningTableSizeItem.offsetWidth / 3+'px; left:'+diningTableSizeItem.offsetWidth / 3+'px;'
-            console.log()
-        }else{
+        for(var i=0; i<diningTableListChild.length; i++){
+            if(isClassName(diningTableListChild[i],'dining-table-item')){
+                diningTableListChildNum ++;
+                diningTableArr.push(diningTableListChild[i]);
+            }
+        }
+        console.log(diningTableArr.length + 'aaaa')
+        if(diningTableListChildNum == 1){
+            if(isClassName(diningTableArr[0],'dining-table-item')){
+                diningTableArr[0].style.cssText = 'top:'+diningTableSizeItem.offsetWidth / 3+'px; left:'+diningTableSizeItem.offsetWidth / 3+'px;'
+            }
+            diningTableArr.length = 1;
+            console.log(diningTableArr.length + 'bbbbb')
+        }else if(diningTableListChildNum > 1){
+            diningTableArr.length = 0;
+            console.log(diningTableArr.length + 'ccccc11111111')
+            for(var i=0; i<diningTableListChild.length; i++){
+                if(isClassName(diningTableListChild[i],'dining-table-item')){
+                    diningTableArr.push(diningTableListChild[i]);
+                }
+            }
+            console.log(diningTableArr.length + 'ccccc')
+            var diningTableChild = diningTableArr;  /*获取桌台集合*/ console.log(diningTableArr)
             var previousIndex = diningTableChild.length - 2;
-            var previousTop = diningTableChild[previousIndex].offsetTop;
-            var previousLeft = diningTableChild[previousIndex].offsetWidth + diningTableChild[previousIndex].offsetLeft;
-            var currentLeft = previousLeft + diningTableChild[previousIndex+1].offsetLeft + 10;
-            diningTableChild[diningTableChild.length - 1].style.cssText = 'left:'+currentLeft+'px; top:'+previousTop+'px'
+            var previousTop = diningTableChild[previousIndex].offsetTop;  console.log(previousTop)
+            var previousLeft = diningTableChild[previousIndex].offsetLeft;  console.log(previousLeft)
+            var currentLeft = previousLeft + diningTableChild[previousIndex].offsetWidth + 10;
+            diningTableChild[diningTableChild.length - 1].style.cssText = 'left:'+currentLeft+'px; top:'+previousTop+'px';
+            console.log( diningTableChild[diningTableChild.length - 1].style.cssText )
         }
 
-        setHeight(zoomValue);
-        /*-----------------------------------保存盒子坐标与宽的比例-----------------------------------------*/
-        aDiningTableItemTopWidth = [];  //在连续添加餐桌时会出现累加行为需要先清空然后重新添加
-        aDiningTableItemLeftWidth = [];
-        for(var i=0; i<diningTableList.children.length; i++){
-            aDiningTableItemTopWidth.push(aDiningTableItem[i].offsetTop / aDiningTableItem[i].offsetWidth);
-            aDiningTableItemLeftWidth.push(aDiningTableItem[i].offsetLeft / aDiningTableItem[i].offsetWidth);
-        }
+        setHeight(zoomValue); //要先设置高宽然后才能获取高宽与left、top的比值，不然获取的值会有偏差
+
+        ratio(diningTableArr)
+
         DiningTableRight();  //桌台右键
 
         //拖拽执行
         drag(createDiningTable,'mousedown','mousemove','mouseup')
         drag(createDiningTable,'touchstart','touchmove','touchend')
+    }
+
+    /*-----------------------------------获取高宽与left、top的比值-----------------------------------------*/
+    function ratio(objs){
+        var aDiningTableItemTopWidthNew = [];
+        var aDiningTableItemLeftWidthNew = [];
+        for(var i=0; i<objs.length; i++){
+            aDiningTableItemTopWidthNew.push(objs[i].offsetTop / objs[i].offsetWidth);
+            aDiningTableItemLeftWidthNew.push(objs[i].offsetLeft / objs[i].offsetWidth);
+        }
+        aDiningTableItemTopWidth = aDiningTableItemTopWidthNew;
+        aDiningTableItemLeftWidth = aDiningTableItemLeftWidthNew;
     }
 
     /*-----------------------------------桌台右键-----------------------------------------*/
@@ -159,9 +192,12 @@ window.onload = function(){
     }
 
     /*-----------------------------------新建墙-----------------------------------------*/
-    function createWall(n){
+
+    function createWall(clientX,clientY,n){
         var createWall = document.createElement('div');
         createWall.setAttribute('class','create-wall');
+        var navH = document.getElementsByTagName('nav')[0].offsetHeight;
+        // console.log(navH)
         switch(n){
             case 4:
                 break;
@@ -171,12 +207,19 @@ window.onload = function(){
                 break;
             default:console.log('正在努力添加中……')
         }
-        createWall.style.cssText = 'width:px; height:px;'
-
+        createWall.style.cssText += ';width:'+diningTableSizeItem.offsetWidth / 20+'px; height:'+diningTableSizeItem.offsetWidth+'px; top:'+clientY+'px; left:'+clientX+'px;';
+        createWall.style.top = clientY-navH + 'px';
+        diningTableList.appendChild(createWall);
+        var diningTableListChild = diningTableList.children;
+        // Proportion()
+        for(var i=0; i<diningTableListChild.length; i++){
+            if(isClassName(diningTableListChild[i],'create-wall')){
+                drag(diningTableListChild[i],'mousedown','mousemove','mouseup')
+                drag(diningTableListChild[i],'touchstart','touchmove','touchend')
+            }
+        }
     }
-    //
-    //
-    //
+
     /*-----------------------------------$设置高 + 缩放-----------------------------------------*/
     var oZoom = document.getElementById('zoom');
     var viewBtn = document.getElementById('viewBtn');
@@ -206,9 +249,9 @@ window.onload = function(){
                 case 1://缩小
                     zoomValue -= 0.2;
                     break;
-                case 2://全景
-                    panorama();
-                    break;
+                // case 2://全景
+                //     panorama();
+                //     break;
                 case 3://原始
                     zoomValue = 1;
                     break;
@@ -227,10 +270,6 @@ window.onload = function(){
             var aDiningTableItemWidthNew = aDiningTableItem[i].offsetWidth;
             aDiningTableItem[i].style.cssText+=';left:'+aDiningTableItemLeftWidth[i] * aDiningTableItemWidthNew+'px;top:'+aDiningTableItemTopWidth[i] * aDiningTableItemWidthNew+'px';
         }
-    }
-    //点击全景之后重新设置宽高，left、top值
-    function panorama(){
-
     }
 
     /*-----------------------------------取消右键菜单功能-----------------------------------------*/
@@ -297,8 +336,6 @@ window.onload = function(){
     }
 
 
-
-
     /*-----------------------------------桌台自适应-----------------------------------------*/
     window.onresize = function(){
         // 如果有模态就执行居中
@@ -316,6 +353,7 @@ window.onload = function(){
     /*------------------------------------$拖拽-----------------------------------------*/
     function drag(obj,ev1,ev2,ev3) {
         obj.addEventListener(ev1,function(ev) {
+            obj.style.zIndex = 1111111111111;
             var ev = ev || event;
             try{
                 var disX = ev.changedTouches[0].clientX - this.offsetLeft;
@@ -331,8 +369,6 @@ window.onload = function(){
             document.addEventListener(ev2,moveIng)
             document.addEventListener(ev3,moveEnd)
             function moveIng(ev) {
-                var aDiningTableItemTopWidthNew = [];
-                var aDiningTableItemLeftWidthNew = [];
                 var ev = ev || event;
                 try{
                     obj.style.left = ev.changedTouches[0].clientX - disX + 'px';
@@ -343,16 +379,12 @@ window.onload = function(){
                 }
 
                 //拖拽完之后重新获取坐标
-                for(var i=0; i<aDiningTableItem.length; i++){
-                    aDiningTableItemTopWidthNew.push(aDiningTableItem[i].offsetTop / aDiningTableItem[i].offsetWidth);
-                    aDiningTableItemLeftWidthNew.push(aDiningTableItem[i].offsetLeft / aDiningTableItem[i].offsetWidth);
-                }
-                aDiningTableItemTopWidth = aDiningTableItemTopWidthNew;
-                aDiningTableItemLeftWidth = aDiningTableItemLeftWidthNew;
+                ratio(aDiningTableItem);
             }
             function moveEnd() {
                 document.removeEventListener(ev2,moveIng);
                 document.removeEventListener(ev3,moveEnd);
+                obj.style.zIndex = 1;
                 //释放全局捕获 releaseCapture();
                 if ( obj.releaseCapture ) {
                     obj.releaseCapture();
