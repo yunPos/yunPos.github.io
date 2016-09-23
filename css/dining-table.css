@@ -85,7 +85,7 @@ nav .nav-menu-center{ text-align:center;}
 }
 
 /*墙*/
-#dining-table-list .create-wall{ position:absolute; -background:#f0f1f3; border-radius: 10%; background:red;}
+#dining-table-list .create-wall{ position:absolute; background:#7e8186; -border-radius: 10%;}
 #dining-table-list .create-wall {}
 
 /*右键样式*/
