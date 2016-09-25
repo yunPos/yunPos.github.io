@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8a1d6609-d514-42c9-b4c6-247a6354736e" name="默认的" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/js.js" afterPath="$PROJECT_DIR$/js/js.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/问题.txt" afterPath="$PROJECT_DIR$/问题.txt" />
     </list>
     <ignored path="yunPOS.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -52,12 +49,12 @@
       <file leaf-file-name="js.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/js.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="61" />
+            <state relative-caret-position="88">
+              <caret line="4" column="62" selection-start-line="4" selection-start-column="62" selection-end-line="4" selection-end-column="62" />
               <folding>
-                <element signature="e#10947#11173#0" expanded="false" />
-                <element signature="e#11283#11847#0" expanded="false" />
-                <element signature="e#16081#16465#0" expanded="false" />
+                <element signature="e#11010#11236#0" expanded="false" />
+                <element signature="e#11346#11910#0" expanded="false" />
+                <element signature="e#16144#16528#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -270,12 +267,12 @@
       <workItem from="1473393009806" duration="15899000" />
       <workItem from="1474767558116" duration="518000" />
       <workItem from="1474797074967" duration="597000" />
-      <workItem from="1474802408089" duration="8174000" />
+      <workItem from="1474802408089" duration="8715000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25188000" />
+    <option name="totallyTimeSpent" value="25729000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1370" height="754" extended-state="0" />
@@ -369,12 +366,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/js.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="61" />
+        <state relative-caret-position="88">
+          <caret line="4" column="62" selection-start-line="4" selection-start-column="62" selection-end-line="4" selection-end-column="62" />
           <folding>
-            <element signature="e#10947#11173#0" expanded="false" />
-            <element signature="e#11283#11847#0" expanded="false" />
-            <element signature="e#16081#16465#0" expanded="false" />
+            <element signature="e#11010#11236#0" expanded="false" />
+            <element signature="e#11346#11910#0" expanded="false" />
+            <element signature="e#16144#16528#0" expanded="false" />
           </folding>
         </state>
       </provider>

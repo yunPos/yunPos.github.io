@@ -2,6 +2,7 @@ window.onload = function(){
     // document.documentElement.style.overflowY = 'hidden';
     // document.documentElement.style.overflowX = 'hidden';
     document.documentElement.style.webkitTouchCallout='none';  //WebView__禁用长按出现选择框、放大镜
+    window.ontouchstart = function(e) { e.preventDefault(); };
     var diningTableSizeItem = document.getElementById('dining-table-size-item');
     var diningTableList = document.getElementById('dining-table-list');
     var aDiningTableItem = diningTableList.getElementsByClassName('dining-table-item');
