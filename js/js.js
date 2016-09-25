@@ -1,6 +1,7 @@
 window.onload = function(){
     // document.documentElement.style.overflowY = 'hidden';
     // document.documentElement.style.overflowX = 'hidden';
+    document.documentElement.style.webkitTouchCallout='none';  //WebView__禁用长按出现选择框、放大镜
     var diningTableSizeItem = document.getElementById('dining-table-size-item');
     var diningTableList = document.getElementById('dining-table-list');
     var aDiningTableItem = diningTableList.getElementsByClassName('dining-table-item');
@@ -119,7 +120,7 @@ window.onload = function(){
         }
         createDiningTable.innerHTML = voidDiningTableHTML();  //create-wall
         diningTableList.appendChild(createDiningTable);
-        var diningTableArr = []; //获取桌台元素集合
+        var diningTableArr = []; //用于暂存桌台元素集合
         var diningTableListChild = diningTableList.children;  //获取地板上的所有元素，桌台、墙、收银台
         var diningTableListChildNum = 0; //暂存桌台的个数
 
@@ -228,7 +229,7 @@ window.onload = function(){
                 createWallArr.push(diningTableListChild[i]);
             }
         }
-        //绑定拖拽改变大小
+        //获取原始的比值
         ratioWallAll(aDiningTableItem)
     }
 
@@ -238,8 +239,8 @@ window.onload = function(){
     var oZoom = document.getElementById('zoom');
     var viewBtn = document.getElementById('viewBtn');
     var swithViewToggle = true;
-    // viewBtn.addEventListener("onclick",viewToggle);
-    viewBtn.onclick = viewToggle
+    viewBtn.addEventListener("click",viewToggle);
+    // viewBtn.onclick = viewToggle
     function viewToggle(){
         if(swithViewToggle){
             oZoom.style.display = 'inline-block';
@@ -381,6 +382,26 @@ window.onload = function(){
         }
     }
 
+    /*-----------------------------------获取墙高宽与left、top的比值-----------------------------------------*/
+    function ratioWallAll(objs){
+        var aWallHeightNew = [];   //用于存放墙的高与桌台高的比值
+        var aWallWidthNew = [];   //用于存放墙的宽与桌台宽的比值
+        var aWallTopWidthNew = [];   //用于存放墙top与宽的比值
+        var aWallLeftWidthNew = [];   //用于存放墙left与宽的比值
+        var num = 0;
+        for(var i=0; i<objs.length; i++){
+            aWallTopWidthNew.push(objs[i].offsetTop / objs[i].offsetWidth);
+            aWallLeftWidthNew.push(objs[i].offsetLeft / objs[i].offsetWidth);
+            aWallHeightNew.push(objs[i].offsetHeight / diningTableSizeItem.offsetWidth);
+            aWallWidthNew.push(objs[i].offsetWidth / diningTableSizeItem.offsetWidth);
+            console.log(num + '--' + aWallTopWidthNew[i] + '  ' + aWallLeftWidthNew[i] + '   ' + aWallHeightNew[i] + '  '+aWallWidthNew[i])
+        }
+        aWallTopWidth = aWallTopWidthNew;
+        aWallLeftWidth = aWallLeftWidthNew;
+        aWallWidth = aWallWidthNew;
+        aWallHeight = aWallHeightNew;
+    }
+
     /*------------------------------------$拖拽-----------------------------------------*/
     function drag(obj,ev1,ev2,ev3,n) {
         obj.addEventListener(ev1,function(ev) {
@@ -491,25 +512,25 @@ window.onload = function(){
     }
 
 
-    /*-----------------------------------获取墙高宽与left、top的比值-----------------------------------------*/
-    function ratioWallAll(objs){
-        var aWallHeightNew = [];   //用于存放墙的高
-        var aWallWidthNew = [];   //用于存放墙的宽
-        var aWallTopWidthNew = [];   //用于存放墙top与宽的比值
-        var aWallLeftWidthNew = [];   //用于存放墙left与宽的比值
-        var num = 0;
-        for(var i=0; i<objs.length; i++){
-            aWallTopWidthNew.push(objs[i].offsetTop / objs[i].offsetWidth);
-            aWallLeftWidthNew.push(objs[i].offsetLeft / objs[i].offsetWidth);
-            aWallHeightNew.push(objs[i].offsetHeight / diningTableSizeItem.offsetWidth);
-            aWallWidthNew.push(objs[i].offsetWidth / diningTableSizeItem.offsetWidth);
-            console.log(num + '--' + aWallTopWidthNew[i] + '  ' + aWallLeftWidthNew[i] + '   ' + aWallHeightNew[i] + '  '+aWallWidthNew[i])
-        }
-        aWallTopWidth = aWallTopWidthNew;
-        aWallLeftWidth = aWallLeftWidthNew;
-        aWallWidth = aWallWidthNew;
-        aWallHeight = aWallHeightNew;
-    }
+    // /*-----------------------------------获取墙高宽与left、top的比值-----------------------------------------*/
+    // function ratioWallAll(objs){
+    //     var aWallHeightNew = [];   //用于存放墙的高
+    //     var aWallWidthNew = [];   //用于存放墙的宽
+    //     var aWallTopWidthNew = [];   //用于存放墙top与宽的比值
+    //     var aWallLeftWidthNew = [];   //用于存放墙left与宽的比值
+    //     var num = 0;
+    //     for(var i=0; i<objs.length; i++){
+    //         aWallTopWidthNew.push(objs[i].offsetTop / objs[i].offsetWidth);
+    //         aWallLeftWidthNew.push(objs[i].offsetLeft / objs[i].offsetWidth);
+    //         aWallHeightNew.push(objs[i].offsetHeight / diningTableSizeItem.offsetWidth);
+    //         aWallWidthNew.push(objs[i].offsetWidth / diningTableSizeItem.offsetWidth);
+    //         console.log(num + '--' + aWallTopWidthNew[i] + '  ' + aWallLeftWidthNew[i] + '   ' + aWallHeightNew[i] + '  '+aWallWidthNew[i])
+    //     }
+    //     aWallTopWidth = aWallTopWidthNew;
+    //     aWallLeftWidth = aWallLeftWidthNew;
+    //     aWallWidth = aWallWidthNew;
+    //     aWallHeight = aWallHeightNew;
+    // }
 }
 
 
