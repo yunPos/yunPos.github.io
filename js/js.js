@@ -1,13 +1,19 @@
 window.onload = function(){
     // document.documentElement.style.overflowY = 'hidden';
     // document.documentElement.style.overflowX = 'hidden';
-    document.documentElement.style.webkitTouchCallout='none';  //WebView__禁用长按出现选择框、放大镜
-    window.ontouchstart = function(e) { e.preventDefault(); };
+    // document.documentElement.style.webkitTouchCallout='none';  //WebView__禁用长按出现选择框、放大镜
+    window.ontouchstart = function(ev) {
+        var ev = ev || event;
+        ev.preventDefault();
+    };
     var diningTableSizeItem = document.getElementById('dining-table-size-item');
     var diningTableList = document.getElementById('dining-table-list');
-    var aDiningTableItem = diningTableList.getElementsByClassName('dining-table-item');
-    var aCreateWall = diningTableList.getElementsByClassName('create-wall');    //create-wall
+    var aDiningTableItem = diningTableList.getElementsByClassName('dining-table-item');  //获取桌台集合
+    var aCreateWall = diningTableList.getElementsByClassName('create-wall');    //获取墙集合
     var oAdminBtn = document.getElementById('admin-btn'); //获取设置按钮
+    var oMain = document.getElementById('main'); //获取地板
+    var oNav = document.getElementsByTagName('nav')[0];  //获取nav元素
+    var oFooter = document.getElementsByTagName('footer')[0]  //获取footer元素
     var oModality  //预先定义模态变量
     var swithModality = false;  //模态开关
     var swithDrag = true;   //是否能拖拽开关
@@ -19,20 +25,36 @@ window.onload = function(){
     var aWallLeftWidth = [];  //用于存放墙left与宽的比值
     var aWallWidth = [];   //用于存放墙的宽
     var aWallHeight = [];   //用于存放墙的高
-
+    var navH = oNav.offsetHeight;  //存放nav的高
+    var footerH = oFooter.offsetHeight; //存放footer的高
 
 
     /*-----------------------------------右键菜单功能-----------------------------------------*/
-    document.oncontextmenu = function(){
+    oMain.oncontextmenu = function(){
         rightMenu(undefined,data.documentRight,0)
         return false; //阻止浏览器右键的默认行为
     };
+    /*-----------------------------------手机长按功能-----------------------------------*/
+    // oMain.addEventListener('touchstart',function(ev){
+    //     var ev = ev || event;
+    //     var longPress = setTimeout(function(){
+    //         rightMenu(undefined,data.documentRight,0)
+    //     },10)
+    //     alert(111)
+    //     ev.preventDefault();
+    // })
+
     function rightMenu(ev,data,pid,_this) {
-        removeRightMenu();
+        removeRightMenu(undefined);
         if(swithMenu){
             ev = ev || event;
-            var disX = ev.clientX;
-            var disY = ev.clientY;
+            try{
+                var disX = ev.changedTouches[0].clientX;
+                var disY = ev.changedTouches[0].clientY;
+            }catch (e){
+                var disX = ev.clientX;
+                var disY = ev.clientY;
+            }
             var oRightMenuBox = document.createElement('div');
             oRightMenuBox.setAttribute("id","rightMenuBox");
             document.body.appendChild(oRightMenuBox);
@@ -50,11 +72,11 @@ window.onload = function(){
     function rightMenuHover(aLi){
         for(var i=0; i<aLi.length; i++) {
             aLi[i].onmouseover = function () {
-                this.style.background = '#ddd';
+                this.style.background = '#eee';
                 this.children[1].style.display = 'block';
             }
             aLi[i].onmouseout = function () {
-                this.style.background = '#eee';
+                this.style.background = '#fff';
                 this.children[1].style.display = 'none';
             }
         }
@@ -89,7 +111,7 @@ window.onload = function(){
                             break;
                         case 6: console.log(n);
                             break;
-                        case 7: console.log(n);
+                        case 7: changeBackground(this);
                             break;
                         case 8: console.log(n);
                             break;
@@ -99,9 +121,11 @@ window.onload = function(){
                             break;
                         case 1002: console.log(n);
                             break;
+                        case 10000: removeWall(undefined,_this);
+                            break;
                         default:console.log('正在努力添加中……')
                     }
-                    removeRightMenu();
+                    removeRightMenu(n);
                 }
             }
         }
@@ -199,7 +223,6 @@ window.onload = function(){
 
     /*-----------------------------------新建墙-----------------------------------------*/
     var createWallArr = [];    //保存墙元素的集合
-    var navH = document.getElementsByTagName('nav')[0].offsetHeight;  //获取nav得高
     function createWall(clientX,clientY,n){
         var createWall = document.createElement('div');
         createWall.setAttribute('class','create-wall');
@@ -231,9 +254,52 @@ window.onload = function(){
             }
         }
         //获取原始的比值
-        ratioWallAll(aDiningTableItem)
+        ratioWallAll(createWallArr)
+        // 移除墙
+        wallRight(createWallArr)
     }
 
+    /*-----------------------------------墙右键-----------------------------------------*/
+    function wallRight(){
+        for(var i=0; i<aCreateWall.length; i++){
+            aCreateWall[i].oncontextmenu = function(ev){
+                var ev = ev || event;
+                rightMenu(undefined,data.wallRight,0,this)
+                ev.cancelBubble = true;
+                return false; //阻止浏览器右键的默认行为
+
+            }
+        }
+    }
+
+    function removeWall(ev,_this){
+        var ev = ev || event;
+        ev.cancelBubble = true;
+        diningTableList.removeChild(_this)
+    }
+
+    /*-----------------------------------上传背景-----------------------------------------*/
+    function changeBackground(_this){
+        var oH5 = _this.getElementsByTagName('h5')[0];
+        var oFile = document.createElement('input');
+        var aInput = _this.getElementsByTagName('input');
+        // oFile.value = '上传图片';
+        oFile.setAttribute("type","file");
+        oFile.setAttribute("accept","image/*;capture=camera");
+        oFile.style.cssText += '; position:absolute; left:25px; top:0; z-index:2; width:100px; opacity:0; ';
+        oH5.style.zIndex = 1;
+        if(aInput.length > 0){
+            for(var i=0; i<aInput.length; i++){
+                _this.removeChild(aInput[i]);
+            }
+        }
+        _this.appendChild(oFile)
+        _this.style.position = 'relative';
+        // aInput[0].click();
+        // console.log()
+        // return aInput[0].onclick();
+
+    }
 
 
     /*-----------------------------------$设置缩放 + 调用高-----------------------------------------*/
@@ -299,9 +365,12 @@ window.onload = function(){
     //
     //
     /*-----------------------------------取消右键菜单功能-----------------------------------------*/
-    document.onclick = removeRightMenu;
-    function removeRightMenu(){
+    document.onclick = function(){
+        removeRightMenu(undefined)
+    };
+    function removeRightMenu(n){
         var oRightMenuBox = document.getElementById('rightMenuBox');
+        if(n == '7') return 0;
         if(oRightMenuBox){
             document.body.removeChild(oRightMenuBox);
         }
@@ -368,6 +437,9 @@ window.onload = function(){
         if(swithModality)modalityCenter();
         // 设置高
         setHeight(zoomValue);
+        // 相应获取nav的高
+        navH = oNav.offsetHeight;
+        footerH = oFooter.offsetHeight;
         //坐标变化
         // console.log( aDiningTableItemTopWidth )
         for(var i=0; i<aDiningTableItem.length; i++){
@@ -382,6 +454,7 @@ window.onload = function(){
             aCreateWall[i].style.cssText += ';left:'+ diningTableSizeItemLeft +'px; top:'+ diningTableSizeItemTop +'px; width:'+diningTableSizeItemWidth+'px; height:'+diningTableSizeItemHeight+'px;'
         }
     }
+
 
     /*-----------------------------------获取墙高宽与left、top的比值-----------------------------------------*/
     function ratioWallAll(objs){
@@ -440,7 +513,6 @@ window.onload = function(){
                 }
                 document.addEventListener(ev2,dragSize);
             }
-
 
             if(swithDrag){
                 document.addEventListener(ev2,moveIng)
@@ -511,27 +583,6 @@ window.onload = function(){
             return false;
         })
     }
-
-
-    // /*-----------------------------------获取墙高宽与left、top的比值-----------------------------------------*/
-    // function ratioWallAll(objs){
-    //     var aWallHeightNew = [];   //用于存放墙的高
-    //     var aWallWidthNew = [];   //用于存放墙的宽
-    //     var aWallTopWidthNew = [];   //用于存放墙top与宽的比值
-    //     var aWallLeftWidthNew = [];   //用于存放墙left与宽的比值
-    //     var num = 0;
-    //     for(var i=0; i<objs.length; i++){
-    //         aWallTopWidthNew.push(objs[i].offsetTop / objs[i].offsetWidth);
-    //         aWallLeftWidthNew.push(objs[i].offsetLeft / objs[i].offsetWidth);
-    //         aWallHeightNew.push(objs[i].offsetHeight / diningTableSizeItem.offsetWidth);
-    //         aWallWidthNew.push(objs[i].offsetWidth / diningTableSizeItem.offsetWidth);
-    //         console.log(num + '--' + aWallTopWidthNew[i] + '  ' + aWallLeftWidthNew[i] + '   ' + aWallHeightNew[i] + '  '+aWallWidthNew[i])
-    //     }
-    //     aWallTopWidth = aWallTopWidthNew;
-    //     aWallLeftWidth = aWallLeftWidthNew;
-    //     aWallWidth = aWallWidthNew;
-    //     aWallHeight = aWallHeightNew;
-    // }
 }
 
 

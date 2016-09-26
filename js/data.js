@@ -5,6 +5,8 @@
 
 //1000.删除桌台  1001.合并桌台   1002. 搭台
 
+//10000删除墙
+
 // pid 表示层级
 var data = {
 	documentRight:[  //文档右键数据
@@ -21,7 +23,7 @@ var data = {
 		{
 			id:3,
 			pid:0,
-			title:"预留选项"
+			title:"背景"
 		},
 		{
 			id:4,
@@ -66,9 +68,27 @@ var data = {
 			type:6
 		},
 		{
+			id:12,
+			pid:3,
+			title:"上传背景",
+			type:7
+		},
+		{
 			id:11,
 			pid:3,
-			title:"预留1-1",
+			title:"上传背景",
+			type:7
+		},
+		{
+			id:11,
+			pid:3,
+			title:"上传背景",
+			type:7
+		},
+		{
+			id:11,
+			pid:3,
+			title:"上传背景",
 			type:7
 		}
 	],
@@ -111,5 +131,13 @@ var data = {
 		// 	pid:1,
 		// 	title:"吧台"
 		// }
+	],
+	wallRight:[   //桌台右键数据
+		{
+			id:1,
+			pid:0,
+			title:"删除墙",
+			type:10000
+		}
 	]
 }

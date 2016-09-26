@@ -89,12 +89,12 @@ nav .nav-menu-center{ text-align:center;}
 #dining-table-list .create-wall {}
 
 /*右键样式*/
-#rightMenuBox{ position:absolute; padding:5px 0; background:#eee;}
+#rightMenuBox{ position:absolute; z-index:1; padding:5px 0; background:#fff; border-radius:5px; box-shadow: 0 0 4px 2px rgba(0,0,0,0.1);}
 #rightMenuBox .right_menuList{ position:relative;}
-#rightMenuBox .right_menuList ul{ position:absolute; top:0; right:-100px; display:none; padding:0 10px;}
-#rightMenuBox .right_menuList li{ background:#eee;}
-#rightMenuBox h5{ position:relative; padding:0 30px 0 15px; line-height:28px;}
-#rightMenuBox .right_menuList ul h5{ padding:0 30px;}
+#rightMenuBox .right_menuList ul{ position:absolute; top:0; right:-128px; display:none; padding:3px 0; background:#fff; border-radius:5px; box-shadow: 0 0 4px 2px rgba(0,0,0,0.1);}
+#rightMenuBox .right_menuList li{ -background:#eee;}
+#rightMenuBox h5{ position:relative; padding:0 30px 0 15px; width:130px; line-height:30px; border-bottom:1px solid #eee;}
+#rightMenuBox .right_menuList ul h5{ padding:0 0 0 20px;}
 #rightMenuBox .right_menuList h5 span{ position:absolute; top:6px; right:6px; display:inline-block; width:14px; height:14px; background:url("../img/rightArrow.png") no-repeat; background-size:56%;}
 #rightMenuBox .NoMoreIcon h5 span{ display: none;}
 @media (min-width:768px) { }
